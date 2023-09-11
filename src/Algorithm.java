@@ -12,20 +12,6 @@ public class Algorithm {
      * @param one board state
      * @return calculated fitness value (best is 0)
      */
-//    protected static int getFitness(Individual iv){
-//        int clashes = 0;
-//        for (int i = 7; i >0; i--) {
-//            for (int j = 7; j >0; j--) {
-//                if (i != j) {
-//                    if (iv.list.get(i).equals(iv.list.get(j))) {
-//                        clashes +=1;
-//                    }
-//                }
-//            }
-//            if (checkDiagonals(iv,iv.list.get(i), i)) clashes += 1;
-//        }
-//        return clashes;
-//    }
     protected static int getFitness(Individual iv) {
         int clashes = 0;
         int n = iv.list.size(); // Assuming iv.list contains 8 elements
@@ -61,14 +47,6 @@ public class Algorithm {
      * @return boolean if the board state passed the test (true = passed test, no threats; false = didn't pass, a threat was found)
      */
     protected static Boolean checkDiagonals(Individual iv, int current, int indexOfCurrent){
-//        for (int i = 7; i >=0; i--){
-//            if (i != indexOfCurrent){
-//                int viewableElem = iv.list.get(i);
-//                int diff = Math.abs(indexOfCurrent-i);
-//                if (viewableElem-current==diff) return false;
-//            }
-//        }
-//        return true;
         for (int i = 0; i < 8; i++) {
             if (i != indexOfCurrent) {
                 int viewableElem = iv.list.get(i);
@@ -97,29 +75,7 @@ public class Algorithm {
         for (int i = popSize/2-1; i >=0; i--){
             halfPop.individuals.add(pop.individuals.get(i));
         }
-//        for (int i = 0; i <= popSize/2-1; i++){
-//            halfPop.individuals.add(pop.individuals.get(i));
-//        }
         Population newPop = new Population();
-//        for (int i = popSize/2-1; i >=0; i--){
-//            if (i > 0) {
-//                Individual nextGenIv = mateIv(halfPop.individuals.get(i), halfPop.individuals.get(i - 1));
-//                mutateIv(nextGenIv);
-//                newPop.individuals.add(nextGenIv);
-//                Individual nextGenIv2 = mateIv(halfPop.individuals.get(i-1), halfPop.individuals.get(i));
-//                mutateIv(nextGenIv2);
-//                halfPop.individuals.add(nextGenIv2);
-//            }
-//            else {
-//                Individual nextGenIv = mateIv(halfPop.individuals.get(i), halfPop.individuals.get(popSize/2-1));
-//                mutateIv(nextGenIv);
-//                newPop.individuals.add(nextGenIv);
-//                Individual nextGenIv2 = mateIv(halfPop.individuals.get(popSize/2-1), halfPop.individuals.get(i));
-//                mutateIv(nextGenIv2);
-//                newPop.individuals.add(nextGenIv2);
-//            }
-//        }
-//        int i = 0; i <= popSize / 2 - 1; i++
         for (int i = popSize/2-1; i >=0; i--) {
             if (i > 0) {
                 Individual parent1 = halfPop.individuals.get(i);
@@ -128,7 +84,7 @@ public class Algorithm {
                 mutateIv(nextGenIv);
                 newPop.individuals.add(nextGenIv);
 
-                Individual nextGenIv2 = mateIv(parent2, parent1); // Swap the parents
+                Individual nextGenIv2 = mateIv(parent2, parent1);
                 mutateIv(nextGenIv2);
                 newPop.individuals.add(nextGenIv2);
             } else {
@@ -138,7 +94,7 @@ public class Algorithm {
                 mutateIv(nextGenIv);
                 newPop.individuals.add(nextGenIv);
 
-                Individual nextGenIv2 = mateIv(parent2, parent1); // Swap the parents
+                Individual nextGenIv2 = mateIv(parent2, parent1);
                 mutateIv(nextGenIv2);
                 newPop.individuals.add(nextGenIv2);
             }
@@ -151,9 +107,14 @@ public class Algorithm {
      * @return a combined board state
      */
     protected static Individual mateIv(Individual iv1, Individual iv2){
-        final List<Integer> indices = new Random().ints(0, 8).distinct().limit(4).boxed().collect(Collectors.toList());
-        Individual newIndividual = new Individual();
+        final List<Integer> indices = new Random()
+                .ints(0, 8)
+                .distinct()
+                .limit(4)
+                .boxed()
+                .collect(Collectors.toList());
 
+        Individual newIndividual = new Individual();
         newIndividual.list.clear();
 
         for (int i = 0; i < 8; i++) {
@@ -167,34 +128,6 @@ public class Algorithm {
                 newIndividual.list.add(value);
             }
         }
-//        newIndividual.list.clear();
-//        for (int index : indices) {
-//            newIndividual.list.add(iv1.list.get(index));
-//        }
-//        for (int value : iv2.list) {
-//            if (!newIndividual.list.contains(value)) {
-//                newIndividual.list.add(value);
-//            }
-//        }
-//        for (int i = 0; i <= 7; i++){
-//            if (!newIndividual.list.contains(i)){
-//                newIndividual.list.add(i);
-//            }
-//        }
-//        newIndividual.list.clear();
-//        newIndividual.list.addAll(indices);
-//        for (int i = 0; i <= 7; i++){
-//            if (!indices.contains(i)){
-//                newIndividual.list.add(i);
-//            }
-//        }
-//        Collections.shuffle(newIndividual.list);
-//        System.out.println("iv1: " + iv1.list);
-//        System.out.println("iv2: " + iv2.list);
-//        System.out.println();
-//        System.out.println(indices);
-//        System.out.println(newIndividual.list);
-//        System.out.println();
         return newIndividual;
     }
 
